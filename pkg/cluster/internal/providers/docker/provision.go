@@ -120,6 +120,14 @@ func planCreation(cfg *config.Cluster, networkName string) (createContainerFuncs
 				}
 				return common.RunContainer("docker", name, args, common.WithWaitUntilSystemdReachesMultiUserSystem())
 			})
+		case config.KrustletWorkerRole:
+			createContainerFuncs = append(createContainerFuncs, func() error {
+				args, err := runArgsForNode(node, cfg.Networking.IPFamily, name, genericArgs)
+				if err != nil {
+					return err
+				}
+				return common.RunContainer("docker", name, args, common.WithWaitUntilSystemdReachesMultiUserSystem())
+			})
 		default:
 			return nil, errors.Errorf("unknown node role: %q", node.Role)
 		}

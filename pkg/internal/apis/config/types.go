@@ -119,7 +119,8 @@ const (
 	// https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#control-plane-node-isolation
 	ControlPlaneRole NodeRole = "control-plane"
 	// WorkerRole identifies a node that hosts a Kubernetes worker
-	WorkerRole NodeRole = "worker"
+	WorkerRole         NodeRole = "worker"
+	KrustletWorkerRole NodeRole = "krustlet"
 )
 
 // Networking contains cluster wide network settings
