@@ -116,6 +116,16 @@ func (c *buildContext) buildImage(bits kube.Bits) error {
 		}
 	}
 
+	if err := execInBuild("curl", "-sSL", "--retry", "5", "--output", "/tmp/krustlet.tar.gz", "https://krustlet.blob.core.windows.net/releases/krustlet-canary-linux-amd64.tar.gz"); err != nil {
+		return err
+	}
+	if err := execInBuild("tar", "xzf", "/tmp/krustlet.tar.gz", "-C", "/usr/bin/", "krustlet-wasi"); err != nil {
+		return err
+	}
+	if err := execInBuild("rm", "-r", "/tmp/krustlet.tar.gz"); err != nil {
+		return err
+	}
+
 	// write version
 	// TODO: support grabbing version from a binary instead
 	if err := createFile(cmder, "/kind/version", bits.Version()); err != nil {
